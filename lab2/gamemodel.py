@@ -6,44 +6,48 @@ class Game:
     def __init__(self, cannonSize, ballSize):
         # TODO: "pass" means the constructor does nothing. Clearly it should be doing something.
         # HINT: This constructor needs to create two players according to the rules specified in the assignment text
+        self.cannonSize = cannonSize
+        self.ballSize = ballSize
+        self.players = []
+        self.currentPlayer = False
+        self.windSpeed = 0
         pass 
 
     """ A list containing both players """
     def getPlayers(self):
-        return [] #TODO: this is just a dummy value
+        return self.players
 
     """ The current player, i.e. the player whose turn it is """
     def getCurrentPlayer(self):
-        return None #TODO: this is just a dummy value
+        return self.players[self.currentPlayer]
 
     """ The opponent of the current player """
     def getOtherPlayer(self):
-        return None #TODO: this is just a dummy value
+        return self.players[not self.currentPlayer]
 
     """ The number (0 or 1) of the current player. This should be the position of the current player in getPlayers(). """
     def getCurrentPlayerNumber(self):
-        return 0 #TODO: this is just a dummy value
+        return self.currentPlayer
 
     """ The height/width of the cannon """
     def getCannonSize(self):
-        return 0 #TODO: this is just a dummy value
+        return self.cannonSize
 
     """ The radius of cannon balls """
     def getBallSize(self):
-        return 0 #TODO: this is just a dummy value
+        return self.ballSize
 
     """ Set the current wind speed, only used for testing """
     def setCurrentWind(self, wind):
-        pass #TODO: this should do something instead of nothing
+        self.windSpeed = wind
 
     """ Get the current wind speed """
     def getCurrentWind(self):
-        return 0 #TODO: this is just a dummy value
+        return self.windSpeed
 
     """ Switch active player """
     def nextPlayer(self):
-        pass #TODO: this should do something instead of nothing
-
+        self.currentPlayer = not self.currentPlayer
 
     """ Start a new round with a random wind value (-10 to +10) """
     def newRound(self):
@@ -54,6 +58,13 @@ class Game:
 
 """ Models a player """
 class Player:
+
+    def __init__(self, color, xPos):
+        self.score = 0
+        self.color = color
+        self.x = xPos
+        self.projectile = None
+        self.aim = 45, 40
    #TODO: You need to create a constructor here. 
    #HINT: It should probably take the Game that creates it as parameter and some additional properties that differ between players (like firing-direction, position and color)
     
@@ -66,7 +77,7 @@ class Player:
 
     """ Returns the current projectile of this player if there is one, otherwise None """
     def getProjectile(self):
-        return None #TODO: this is just a dummy value (although sometimes it's correct)
+        return self.projectile
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
     def projectileDistance(self, proj):
@@ -78,23 +89,23 @@ class Player:
 
     """ The current score of this player """
     def getScore(self):
-        return 0 #TODO: this is just a dummy value
+        return self.score
 
     """ Increase the score of this player by 1."""
     def increaseScore(self):
-        pass #TODO: this should do something instead of nothing
+        self.score += 1
 
     """ Returns the color of this player (a string)"""
     def getColor(self):
-        return "DUMMY COLOR" #TODO: this is just a dummy value
+        return self.color
 
     """ The x-position of the centre of this players cannon """
     def getX(self):
-        return 0 #TODO: this is just a dummy value
+        return self.x
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
-        return 0, 0 #TODO: this is just a dummy value 
+        return self.aim
 
 
 
