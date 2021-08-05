@@ -23,6 +23,7 @@ class GameGraphics:
         self.players = [
             PlayerGraphics(game.players[0], cannonSize, ballSize, win),
             PlayerGraphics(game.players[1], cannonSize, ballSize, win)]
+        Line(Point(-110, 0), Point(110, 0)).draw(self.window)
 
     def sync(self):
         for player in self.players:
@@ -45,25 +46,23 @@ class PlayerGraphics:
         self.cannonSize = cannonSize
         self.ballSize = ballSize
         self.window = window
-        self.sync()
-
-    def sync(self):
-        text = Text(Point(self.player.getX(), -5), self.player.getScore())
-        rect = Rectangle(
+        self.cannon = Rectangle(
             Point(self.player.getX() - self.cannonSize/2, 0),
             Point(self.player.getX() + self.cannonSize/2, self.cannonSize))
-        text.draw(self.window)
-        rect.draw(self.window)
+        self.score = Text(Point(self.player.getX(), -5), self.player.getScore())
+        self.proj = None
+        self.cannon.draw(window)
+        self.score.draw(window)
 
+    def sync(self):
+        proj = self.player.getProjectile()
+        if(proj != None and self.proj == None):
+            self.proj = Circle(Point(proj.getX(), proj.getY()), self.ballSize)
+            self.proj.draw(self.window)
 
-# TODO: There needs to be a class called PlayerGraphics here.
-# TODO: It needs only a constructor and a sync()-method
-# HINT: Each PlayerGraphics should contain one Player object. 
-# HINT: Should draw a cannon and a scoreboard immediately 
-#       (the Player object knows its position)
-# HINT: Typically doesn't draw a projectile when created, but creates one at some point
-#       when sync() is called.
-# HINT: sync() needs to update the score text and draw/update a circle for the projectile if there is one. 
+    def close(self):
+        self.window.close()
+
 
 """ A somewhat specific input dialog class (adapted from the book) """
 class InputDialog:

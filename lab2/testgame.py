@@ -148,7 +148,8 @@ def testGraphics():
     rect_type = type(graphics.Rectangle(graphics.Point(0,0), graphics.Point(1,1)))
 
     if len(w.items) != 5:
-        print("WARNING: your graphics does not start with five graphical components. This is likely an error.")
+        print("WARNING: your graphics does not start with five graphical components. This is likely an error. {0}".format(len(w.items)))
+        print(w.items)
 
     # Run the standard tests for the model, then sync graphics
     runTests(game)
@@ -183,4 +184,4 @@ runTests(gamemodel.Game(10,3))
 testGraphics()
 
 # If your graphical window or close immediately after running test, try uncommenting this
-#wait = input("Press Enter to terminate.")
+wait = input("Press Enter to terminate.")

@@ -16,12 +16,18 @@ def graphicFire(game, graphics, angle, vel):
     return proj
 
 def graphicPlay():
-    # TODO: This is where you implement the game loop
-    # HINT: Creating a Game and a GraphicGame is a good start. 
-    # HINT: You can look at the text interface for some inspiration
-    # Note that this code should not directly work with any drawing or such 
-    #   all that is done by the methods in the classes.
-    pass
+    game = gamemodel.Game(10, 3)
+    graphics = gamegraphics.GameGraphics(game)
+    inputDialog = gamegraphics.InputDialog(45, 40)
+    while True:
+        _input = inputDialog.interact()
+        if(_input == "Quit"):
+            inputDialog.close()
+            graphics.close()
+        elif(_input == "Fire!"):
+            angle, vel = inputDialog.getValues()
+            proj = graphicFire(game, graphics, angle, vel)
+            
 
 # Run the game with graphical interface
 graphicPlay()
