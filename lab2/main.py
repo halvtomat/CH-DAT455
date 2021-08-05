@@ -15,10 +15,24 @@ def graphicFire(game, graphics, angle, vel):
         update(50) # Waits for a short amount of time before the next iteration
     return proj
 
+def graphicFinishShot(game, proj):
+    # The current player
+    player = game.getCurrentPlayer()
+    # The player opposing the current player
+    other = game.getOtherPlayer()
+
+    # Check if we won
+    distance = other.projectileDistance(proj) 
+    if distance == 0.0:
+        player.increaseScore()
+        game.newRound()
+    # Switch active player
+    game.nextPlayer()
+
 def graphicPlay():
-    game = gamemodel.Game(10, 3)
-    graphics = gamegraphics.GameGraphics(game)
-    inputDialog = gamegraphics.InputDialog(45, 40)
+    game = Game(10, 3)
+    graphics = GameGraphics(game)
+    inputDialog = InputDialog(45, 40, game.getCurrentWind())
     while True:
         _input = inputDialog.interact()
         if(_input == "Quit"):
@@ -27,6 +41,7 @@ def graphicPlay():
         elif(_input == "Fire!"):
             angle, vel = inputDialog.getValues()
             proj = graphicFire(game, graphics, angle, vel)
+            graphicFinishShot(game, proj)
             
 
 # Run the game with graphical interface

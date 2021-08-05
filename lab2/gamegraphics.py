@@ -30,15 +30,10 @@ class GameGraphics:
             player.sync()
     
     def getWindow(self):
-        return self.window
-# TODO: The class only needs two methods, sync() and getWindow(). 
-# HINT: The constructor needs to create a window, a couple of graphic components and two 
-#       PlayerGraphics-objects that in turn create additional components
-# HINT: sync() needs to call sync() for the two PlayerGraphics-objects
-# HINT: These lines are good for creating a window:
-#       win = GraphWin("Cannon game" , 640, 480, autoflush=False)
-#       win.setCoords(-110, -10, 110, 155)
-# HINT: Don't forget to call draw() on every component you create, otherwise they will not be visible
+        return self.window    
+
+    def close(self):
+        self.window.close()
 
 class PlayerGraphics:
     def __init__(self, player, cannonSize, ballSize, window):
@@ -49,6 +44,7 @@ class PlayerGraphics:
         self.cannon = Rectangle(
             Point(self.player.getX() - self.cannonSize/2, 0),
             Point(self.player.getX() + self.cannonSize/2, self.cannonSize))
+        self.cannon.setFill(self.player.getColor())
         self.score = Text(Point(self.player.getX(), -5), self.player.getScore())
         self.proj = None
         self.cannon.draw(window)
@@ -56,12 +52,12 @@ class PlayerGraphics:
 
     def sync(self):
         proj = self.player.getProjectile()
-        if(proj != None and self.proj == None):
+        if(proj != None):
+            if(self.proj != None):
+                self.proj.undraw()
             self.proj = Circle(Point(proj.getX(), proj.getY()), self.ballSize)
+            self.proj.setFill(self.player.getColor())
             self.proj.draw(self.window)
-
-    def close(self):
-        self.window.close()
 
 
 """ A somewhat specific input dialog class (adapted from the book) """

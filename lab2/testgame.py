@@ -184,4 +184,4 @@ runTests(gamemodel.Game(10,3))
 testGraphics()
 
 # If your graphical window or close immediately after running test, try uncommenting this
-wait = input("Press Enter to terminate.")
+#wait = input("Press Enter to terminate.")
