@@ -13,8 +13,23 @@
 # This is the only place where graphics should be imported!
 from graphics import *
 
-# TODO: There needs to be a class called GameGraphics here. 
-# Its constructor should take only a Game object.
+class GameGraphics:
+    def __init__(self, game):
+        self.game = game
+        self.window = win = GraphWin("Cannon game", 640, 480, autoflush=False)
+        win.setCoords(-110, -10, 110, 155)
+        cannonSize = game.getCannonSize()
+        ballSize = game.getBallSize()
+        self.players = [
+            PlayerGraphics(game.players[0], cannonSize, ballSize, win),
+            PlayerGraphics(game.players[1], cannonSize, ballSize, win)]
+
+    def sync(self):
+        for player in self.players:
+            player.sync()
+    
+    def getWindow(self):
+        return self.window
 # TODO: The class only needs two methods, sync() and getWindow(). 
 # HINT: The constructor needs to create a window, a couple of graphic components and two 
 #       PlayerGraphics-objects that in turn create additional components
@@ -23,6 +38,23 @@ from graphics import *
 #       win = GraphWin("Cannon game" , 640, 480, autoflush=False)
 #       win.setCoords(-110, -10, 110, 155)
 # HINT: Don't forget to call draw() on every component you create, otherwise they will not be visible
+
+class PlayerGraphics:
+    def __init__(self, player, cannonSize, ballSize, window):
+        self.player = player
+        self.cannonSize = cannonSize
+        self.ballSize = ballSize
+        self.window = window
+        self.sync()
+
+    def sync(self):
+        text = Text(Point(self.player.getX(), -5), self.player.getScore())
+        rect = Rectangle(
+            Point(self.player.getX() - self.cannonSize/2, 0),
+            Point(self.player.getX() + self.cannonSize/2, self.cannonSize))
+        text.draw(self.window)
+        rect.draw(self.window)
+
 
 # TODO: There needs to be a class called PlayerGraphics here.
 # TODO: It needs only a constructor and a sync()-method
@@ -33,10 +65,9 @@ from graphics import *
 #       when sync() is called.
 # HINT: sync() needs to update the score text and draw/update a circle for the projectile if there is one. 
 
-
 """ A somewhat specific input dialog class (adapted from the book) """
 class InputDialog:
-    """ Creates an input dialog with initial values for angle and velocity and displaying wind """
+    """ Creates an input dialog with initial values for angle and velocity and displaying windGraphicsObject() """
     def __init__ (self, angle, vel, wind):
         self.win = win = GraphWin("Fire", 200, 300)
         win.setCoords(0,4.5,4,.5)

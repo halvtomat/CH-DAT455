@@ -20,3 +20,5 @@ node_modules/
 .vscode/
 
 apiConfig.js
+
+__pycache__/
