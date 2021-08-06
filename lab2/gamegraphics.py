@@ -45,12 +45,18 @@ class PlayerGraphics:
             Point(self.player.getX() - self.cannonSize/2, 0),
             Point(self.player.getX() + self.cannonSize/2, self.cannonSize))
         self.cannon.setFill(self.player.getColor())
-        self.score = Text(Point(self.player.getX(), -5), self.player.getScore())
+        self.lastScore = self.player.getScore()
+        self.score = Text(Point(self.player.getX(), -5), self.lastScore)
         self.proj = None
         self.cannon.draw(window)
         self.score.draw(window)
 
     def sync(self):
+        if(self.lastScore != self.player.getScore()):
+            self.lastScore = self.player.getScore()
+            self.score.undraw()
+            self.score = Text(Point(self.player.getX(), -5), self.lastScore)
+            self.score.draw(self.window)
         proj = self.player.getProjectile()
         if(proj != None):
             if(self.proj != None):

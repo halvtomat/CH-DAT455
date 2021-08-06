@@ -50,7 +50,6 @@ class Game:
     def newRound(self):
         wind = random.random() * 20 - 10
         self.setCurrentWind(wind)
-        self.nextPlayer()
 
 """ Models a player """
 class Player:
@@ -85,12 +84,14 @@ class Player:
     def projectileDistance(self, proj):
         distance = proj.getX() - self.getX()
         offset = (self.game.getBallSize() + self.game.getCannonSize()/2)
+        if(abs(distance) < offset):
+            return 0
         if(distance < 0):
-            if(abs(distance + offset) < 5):
+            if(abs(distance + offset) < 1):
                 return 0
             return distance + offset
         else:
-            if(abs(distance - offset) < 5):
+            if(abs(distance - offset) < 1):
                 return 0
             return distance - offset
 

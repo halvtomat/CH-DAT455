@@ -22,7 +22,7 @@ def graphicFinishShot(game, proj):
     other = game.getOtherPlayer()
 
     # Check if we won
-    distance = other.projectileDistance(proj) 
+    distance = other.projectileDistance(proj)
     if distance == 0.0:
         player.increaseScore()
         game.newRound()
@@ -32,16 +32,19 @@ def graphicFinishShot(game, proj):
 def graphicPlay():
     game = Game(10, 3)
     graphics = GameGraphics(game)
-    inputDialog = InputDialog(45, 40, game.getCurrentWind())
     while True:
+        angle, vel = game.getCurrentPlayer().getAim()
+        inputDialog = InputDialog(angle, vel, game.getCurrentWind())
         _input = inputDialog.interact()
+        inputDialog.close()
         if(_input == "Quit"):
-            inputDialog.close()
             graphics.close()
+            break
         elif(_input == "Fire!"):
             angle, vel = inputDialog.getValues()
             proj = graphicFire(game, graphics, angle, vel)
             graphicFinishShot(game, proj)
+            graphics.sync()
             
 
 # Run the game with graphical interface
